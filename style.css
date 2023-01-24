@@ -40,9 +40,3 @@ p {
 button {
   margin: 20px;
 }
-
-
-#resetbtn,
-#verifybtn {
-  display: none;
-}
