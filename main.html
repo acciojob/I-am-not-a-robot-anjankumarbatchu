@@ -7,12 +7,127 @@
     <title>I'm not a robot</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body>
-    <main>
-      <!-- solution start -->
-      
-      <!-- solution end -->
-    </main>
-    <script src="./script.js"></script>
-  </body>
+  
+<body>
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+    <img src="" alt="">
+
+    <script>
+        let heading3 = document.createElement('h3');
+        heading3.setAttribute("id", "h");
+        // heading3.getAttribute("id")....will us the the id value
+        // we can also access using heading3.id, 'heading3.className' but not 'heading3.class'
+
+        heading3.innerHTML = "please click on the identical tiles to verify that you are not a robot"
+
+        document.body.appendChild(heading3);  // appendchild will add the elements at end whereas prepend will add at starting of page
+
+        // here we can use both append and appendchild 
+        //diff is append can add data provided as string in quotes whereas appendchild will only accepts varibles
+        // which stores our data
+
+        let btn = document.createElement("button");
+        btn.setAttribute("id", "resetbtn");
+        btn.innerHTML = "reset";
+        document.body.append(btn);
+
+        let btn1 = document.createElement("button");
+        btn1.setAttribute("id", "verifybtn");
+        btn1.innerHTML = "verify";
+        document.body.append(btn1);
+
+
+
+        let imgClass = ["img1", "img2", "img3", "img4","img5"];
+        let randomIdx = Math.floor(Math.random() * imgClass.length);  // generating a randomindex here
+        let randomImg = imgClass[randomIdx];   // picking the randomimg from our img array
+        imgClass.push(randomImg);   // pushing the 6th img using randomidx into our img arrray
+
+        let arr1 = [];
+        let x = 0;
+        while (x < imgClass.length) {
+            let randomIdx1 = Math.floor(Math.random() * imgClass.length);
+            if (arr1[randomIdx1] == undefined) {
+                arr1[randomIdx1] = imgClass[x];
+                x++;
+            }
+            else if (arr1[randomIdx1] != undefined) {
+                continue;
+            }
+
+        }
+
+        let images = document.querySelectorAll("img");
+         // setting attibute - class Name to all images
+         for(let i = 0; i <= arr1.length-1; i++){
+                images[i].setAttribute("class", arr1[i]) 
+                images[i].setAttribute("id", i)
+              }
+        // let k = 0, c = 0;
+        // for (let t of arr1) {
+        //     images[k++].setAttribute("class", arr1[k]);
+        //     images[c++].setAttribute("id", c);
+        // }
+
+
+        for (let z of images) {
+            z.addEventListener("click", userOrBot);
+        }
+
+        let prevImgId = "";
+        let countt = 0;
+        function userOrBot(e) {
+            resetbtn.style.display = "inline";
+            let currentImgId = e.target.id;    // here first will get the id of the image clicked
+            images[currentImgId].classList.add('selected');
+            if (currentImgId != prevImgId) {  //then we are checking if it is equal to the previosly clicked img id
+                countt++;              // if they are not equal then we are incrementing count
+                prevImgId=currentImgId;   // then we are storing the id in previmgid
+                if (countt == 2) {
+                    let verifybtnn = document.getElementById("verifybtn");
+                    verifybtn.style.display = "inline";  
+                }
+            }
+        }
+
+        resetbtn.addEventListener("click", ()=>{
+            resetbtn.style.display="none";
+            verifybtn.style.display="none";
+            countt=0;
+            let selectedImages = document.querySelectorAll(".selected");
+            for(let t of selectedImages){
+                t.classList.remove("selected");
+            }
+
+        });
+
+        
+        verifybtn.addEventListener("click",()=>{
+            let p = document.createElement("p");
+            let selectedImages = document.querySelectorAll(".selected");
+            let class1 = selectedImages[0].className;
+            let class2 = selectedImages[1].className;
+            
+            if (class1==class2){
+                
+                p.innerHTML="congratulation, you are a human";
+                
+            }
+            else{
+                p.innerHTML="sorry, we are unable verify you as human";
+                
+            }
+            verifybtn.style.display = "none"
+            document.body.append(p);
+        });
+        
+    </script>
+
+
+
+</body>
 </html>
